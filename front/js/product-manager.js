@@ -32,7 +32,9 @@ function viewProduct(item) {
         this.setAttribute('value', input.value);
     })
 
-    button.addEventListener('click', function () {
+    button.addEventListener('click', function (e) {
+        e.preventDefault()
+        e.stopPropagation()
         let color = colors.value;
         let quantity = input.getAttribute('value');
         console.log(color)
@@ -45,50 +47,49 @@ function viewProduct(item) {
             "color": color,
             "quantity": quantity
         })
-        console.log(array)
         addLocalStorage(array)
         window.location.href = `./cart.html`
     })
 }
 
-class Kanap {
-    constructor() {
-        // this.id = data.id;
-        // this.color = [data.colors];
-        // this.url = data.imageUrl;
-        let kanap = localStorage.getItem("kanap");
-        console.log(kanap)
-        this.kanap = JSON.parse(kanap)
-        // if (kanap == null) {
-        //     console.log("null");
-        //     this.kanap = [];
-        // } else {
-        //     this.kanap = JSON.parse(kanap)
-        // }
-    }
-    saveLocalStorage() {
-        localStorage.setItem('kanap', JSON.stringify(this.kanap))
-    }
-
-    addProduct(product) {
-        let foundProduct = this.kanap.find(p => p.id === product.id);
-        if (foundProduct !== undefined) {
-            foundProduct.quantity++;
-            return this.kanap;
-        } else {
-            product.quantity = 1;
-            this.kanap.push(product)
-        }
-        this.saveLocalStorage();
-    }
-
-    getId() {
-        let id = "";
-        for (let product of this.kanap) {
-            id += product.id
-        }
-    }
-}
+// class Kanap {
+//     constructor() {
+//         // this.id = data.id;
+//         // this.color = [data.colors];
+//         // this.url = data.imageUrl;
+//         let kanap = localStorage.getItem("kanap");
+//         console.log(kanap)
+//         this.kanap = JSON.parse(kanap)
+//         // if (kanap == null) {
+//         //     console.log("null");
+//         //     this.kanap = [];
+//         // } else {
+//         //     this.kanap = JSON.parse(kanap)
+//         // }
+//     }
+//     saveLocalStorage() {
+//         localStorage.setItem('kanap', JSON.stringify(this.kanap))
+//     }
+//
+//     addProduct(product) {
+//         let foundProduct = this.kanap.find(p => p.id === product.id);
+//         if (foundProduct !== undefined) {
+//             foundProduct.quantity++;
+//             return this.kanap;
+//         } else {
+//             product.quantity = 1;
+//             this.kanap.push(product)
+//         }
+//         this.saveLocalStorage();
+//     }
+//
+//     getId() {
+//         let id = "";
+//         for (let product of this.kanap) {
+//             id += product.id
+//         }
+//     }
+// }
 
 //
 function addLocalStorage(kanap) {
@@ -96,26 +97,25 @@ function addLocalStorage(kanap) {
 }
 
 function getProduct() {
-    let kanap = localStorage.getItem("kanap");
-    console.log(kanap)
+    let kanap = localStorage;
     if (kanap == null) {
         return[];
     } else {
-        return JSON.parse(kanap)
+        return kanap.getItem("kanap");
     }
 }
 
-function addProduct(product) {
-    let kanap = getProduct();
-    let foundProduct = kanap.find(p => p.id === product.id);
-    if (foundProduct !== undefined) {
-        foundProduct.quantity++;
-    } else {
-        product.quantity = 1;
-        kanap.push(product)
-    }
-    addLocalStorage(kanap);
-}
+// function addProduct(product) {
+//     let kanap = getProduct();
+//     let foundProduct = kanap.find(p => p.id === product.id);
+//     if (foundProduct !== undefined) {
+//         foundProduct.quantity++;
+//     } else {
+//         product.quantity = 1;
+//         kanap.push(product)
+//     }
+//     addLocalStorage(kanap);
+// }
 
 function removeFromKanap(product) {
     let kanap = getProduct();

@@ -2,7 +2,9 @@
 
 console.log('render');
 
+//For render Homepage
 const cartContainer = document.getElementById("items");
+
 
 function renderCarts(products) {
     for (let product of products) {
@@ -21,10 +23,11 @@ function renderCarts(products) {
 
 
 
+
+
 const links = document.getElementsByClassName("item-link");
 
 function clickFunction(data) {
-    // console.log(data);
     let id = "";
 
     for (const link of links) {
@@ -35,9 +38,8 @@ function clickFunction(data) {
                 let data_id = donne._id;
 
                 if (data_id === id) {
+
                     addLocalStorage(donne)
-                    // let kanap = new Kanap(donne)
-                    // console.log(kanap)
                 }
             }
         });

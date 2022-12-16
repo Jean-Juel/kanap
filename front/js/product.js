@@ -1,5 +1,4 @@
 let here = window.location.href
-console.log(here)
 
 console.log('product')
 function gettProduct() {
@@ -21,7 +20,7 @@ function gettProduct() {
                     res.json().then(function (data) {
                         for (const donne of data) {
                             let data_id = donne._id;
-                            if (data_id === id  ) {
+                            if (data_id === id ) {
                                 viewProduct(donne);
                             }
                         }

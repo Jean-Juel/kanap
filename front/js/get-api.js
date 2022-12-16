@@ -17,12 +17,10 @@ function getArticle() {
     fetch("http://localhost:3000/api/products", options)
         .then(function (res) {
             if (res.ok) {
-                console.log(res)
                 res.json().then(function (data) {
                     if (body.classList.contains('homepage')) {
                         renderCarts(data)
                     }
-                    // clickFunction(data)
                 })
             } else {
                 console.log("Error")
