@@ -25,26 +25,25 @@ function renderCarts(products) {
 
 
 
-const links = document.getElementsByClassName("item-link");
+// const links = document.getElementsByClassName("item-link");
 
-function clickFunction(data) {
-    let id = "";
-
-    for (const link of links) {
-        link.addEventListener("click", function () {
-            id = this.getAttribute("data-id");
-
-            for (const donne of data) {
-                let data_id = donne._id;
-
-                if (data_id === id) {
-
-                    addLocalStorage(donne)
-                }
-            }
-        });
-    }
-}
+// function clickFunction(data) {
+//     let id = "";
+//
+//     for (const link of links) {
+//         link.addEventListener("click", function () {
+//             id = this.getAttribute("data-id");
+//
+//             for (const donne of data) {
+//                 let data_id = donne._id;
+//
+//                 if (data_id === id) {
+//                     addLocalStorage(donne)
+//                 }
+//             }
+//         });
+//     }
+// }
 
 
 

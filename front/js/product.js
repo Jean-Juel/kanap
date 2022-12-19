@@ -1,12 +1,17 @@
-let here = window.location.href
 
 console.log('product')
+    let here = window.location.href
+
+function getId() {
+    let url = new URL(here);
+    return url.searchParams.get("id");
+}
 function gettProduct() {
     if (here.indexOf("id") > -1) {
         console.log("content")
-        let url = new URL(here);
-        let id = url.searchParams.get("id");
-        // console.log(id)
+
+        let id = getId();
+        console.log(id)
         const header = new Headers();
 
         const options = {
@@ -36,3 +41,4 @@ function gettProduct() {
 }
 
 gettProduct()
+

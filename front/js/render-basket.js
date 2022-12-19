@@ -6,14 +6,12 @@ const basketTotalQuantity= document.getElementById("totalQuantity");
 const basketTotalPrice = document.getElementById("totalPrice");
 const basketInput = document.getElementsByClassName("itemQuantity");
 const basketError = document.getElementById("firstNameErrorMsg");
-let removeArticle = document.getElementById('delete');
 
 
 function renderBasket(products) {
-        let local = showLocal(products)
+        // let local = showLocal(products)
+        console.log(local)
         let kanap = local[0]
-        let inputValue = basketInput.value
-        console.log(kanap)
         console.log(products)
         basketContainer.innerHTML +=   `
                <article class="cart__item" data-id="${products._id}" data-color="${kanap.color}">
@@ -24,7 +22,7 @@ function renderBasket(products) {
                   <div class="cart__item__content__description">
                     <h2>${products.name}</h2>
                     <p>${kanap.color}</p>
-                    <p>${products.price}</p>
+                    <p>${products.price + '' + '$'}</p>
                   </div>
                   <div class="cart__item__content__settings">
                     <div class="cart__item__content__settings__quantity">
@@ -37,7 +35,7 @@ function renderBasket(products) {
                   </div>
                 </div>
               </article>`;
-        basketTotalQuantity.innerHTML += `${basketInput}`
+        basketTotalQuantity.innerHTML += `${kanap.quantity}`
         basketTotalPrice.innerHTML += `${kanap.quantity * products.price}`
 
 }

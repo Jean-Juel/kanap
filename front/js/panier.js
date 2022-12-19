@@ -1,21 +1,22 @@
 console.log('basket')
-
-
-// removeArticle.addEventListener('clic', function(e) {
-//     e.preventDefault()
-//     console.log('click')
-// })
-function showLocal() {
-    let localProduct = getProduct(localStorage)
-    return JSON.parse(localProduct)
-}
+// let idArray = []
+// console.log(localStorage)
+//
+// for (let i = 0; i < localStorage.length; i++) {
+//     const key = localStorage.key(i)
+//     let keys = localStorage.getItem(key)
+//
+// idArray.push(keys)
+//
+// }
+//
+// console.log(idArray)
 
 
 function viewBasket(item) {
-    let local = showLocal(item)
-    let kanap = local[0]
+    console.log(item)
+    let kanap = idArray
     console.log(kanap)
-    console.log(kanap.id)
     console.log("function get basket")
     const headers = new Headers();
 
@@ -30,10 +31,39 @@ function viewBasket(item) {
                 res.json().then(function (data) {
                     for (const donne of data) {
                         let data_id = donne._id;
-                        if (data_id === kanap.id  ) {
-                            renderBasket(donne)
+                        console.log(data_id)
+                        for (let id of idArray){
+                            if (data_id === item.id) {
+                                console.log(id)
+                                renderBasket(id)
+
+                                const remove = document.querySelector('.cart__item__content__settings__delete')
+                                const inputValue = document.querySelector('.cart__item__content__settings__quantity > input')
+                                const kanapQuantity = document.querySelector('.cart__item__content__settings__quantity > p')
+
+                                inputValue.addEventListener('input', function () {
+                                    let quantityInput = inputValue.value;
+                                    inputValue.setAttribute('value', quantityInput);
+                                    kanapQuantity.innerHTML = ``
+                                    kanapQuantity.innerHTML += `Qté : ${quantityInput}`
+                                    basketTotalQuantity.innerHTML = ``
+                                    basketTotalQuantity.innerHTML += `${quantityInput}`
+                                    basketTotalPrice.innerHTML = ``
+                                    basketTotalPrice.innerHTML += `${quantityInput * donne.price}`
+                                })
+
+                                remove.addEventListener('click', function () {
+                                    basketContainer.innerHTML = '';
+                                    basketTotalPrice.innerHTML = ``
+                                    basketTotalQuantity.innerHTML = ``
+                                    basketTotalQuantity.innerHTML += `0`
+                                    basketTotalPrice.innerHTML += `0`
+                                    localStorage.clear()
+                                })
+                            }
                         }
                     }
+
                 })
             } else {
                 console.log("Error")
@@ -41,8 +71,6 @@ function viewBasket(item) {
         })
 }
 
-viewBasket()
-
-
+viewBasket(localStorage)
 
 

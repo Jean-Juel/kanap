@@ -1,5 +1,13 @@
 // Rendu page product
 // import render from render.js;
+let array = [];
+let idArray = [];
+let local = localStorage
+console.log(local)
+
+function addLocalStorage(kanap, value) {
+    localStorage.setItem(kanap, JSON.stringify(value))
+}
 
 console.log('product manager')
 function viewProduct(item) {
@@ -22,12 +30,6 @@ function viewProduct(item) {
         colors.innerHTML += `<option value="${color}">${color}</option>`;
     }
 
-    // colors.addEventListener('change', function () {
-    //     console.log(this.value)
-    //     let options = document.querySelectorAll('#colors > option');
-    //     options.setAttribute('selected', "selected");
-    // })
-
     input.addEventListener('input', function () {
         this.setAttribute('value', input.value);
     })
@@ -41,69 +43,66 @@ function viewProduct(item) {
         console.log(quantity)
         console.log(id)
 
-        let array = [];
         array.push({
             "id": id,
             "color": color,
             "quantity": quantity
         })
-        addLocalStorage(array)
+
+
+        for (let local of array) {
+            // if () {
+
+        // }
+        }
+
+        console.log(array)
+
+        addLocalStorage(id, array)
         window.location.href = `./cart.html`
     })
 }
 
-// class Kanap {
-//     constructor() {
-//         // this.id = data.id;
-//         // this.color = [data.colors];
-//         // this.url = data.imageUrl;
-//         let kanap = localStorage.getItem("kanap");
-//         console.log(kanap)
-//         this.kanap = JSON.parse(kanap)
-//         // if (kanap == null) {
-//         //     console.log("null");
-//         //     this.kanap = [];
-//         // } else {
-//         //     this.kanap = JSON.parse(kanap)
-//         // }
-//     }
-//     saveLocalStorage() {
-//         localStorage.setItem('kanap', JSON.stringify(this.kanap))
-//     }
-//
-//     addProduct(product) {
-//         let foundProduct = this.kanap.find(p => p.id === product.id);
-//         if (foundProduct !== undefined) {
-//             foundProduct.quantity++;
-//             return this.kanap;
-//         } else {
-//             product.quantity = 1;
-//             this.kanap.push(product)
-//         }
-//         this.saveLocalStorage();
-//     }
-//
-//     getId() {
-//         let id = "";
-//         for (let product of this.kanap) {
-//             id += product.id
-//         }
-//     }
+// console.log('length' + keys.length)
+
+// function getProduct() {
+//     return localStorage.getItem('keys');
 // }
-
 //
-function addLocalStorage(kanap) {
-    localStorage.setItem('kanap', JSON.stringify(kanap))
-}
+// console.log(getProduct(localStorage))
 
-function getProduct() {
-    let kanap = localStorage;
-    if (kanap == null) {
-        return[];
-    } else {
-        return kanap.getItem("kanap");
+
+console.log(array)
+
+function getAllIdProduct() {
+    for (let i = 0; i < localStorage.length;i++) {
+        let key = localStorage.key(i)
+        idArray.push(key)
+        // let localProduct = localStorage.key(i)
+        // return JSON.parse(localProduct)
     }
 }
+
+
+
+// let keys = Object.keys(localStorage)
+function showLocal() {
+    for (let i = 0; i < localStorage.length;i++) {
+        let key = localStorage.key(i)
+        idArray.push(key)
+
+
+        // let localProduct = localStorage.key(i)
+        // return JSON.parse(localProduct)
+    }
+}
+
+showLocal()
+console.log(idArray[1])
+
+
+
+
 
 // function addProduct(product) {
 //     let kanap = getProduct();
@@ -117,9 +116,9 @@ function getProduct() {
 //     addLocalStorage(kanap);
 // }
 
-function removeFromKanap(product) {
-    let kanap = getProduct();
-    kanap = kanap.filter(p => p.id !== product.id);
-    addLocalStorage(kanap);
-}
+// function removeFromKanap(product) {
+//     let kanap = getProduct();
+//     kanap = kanap.filter(p => p.id !== product.id);
+//     addLocalStorage(kanap);
+// }
 
