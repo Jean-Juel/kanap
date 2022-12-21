@@ -1,31 +1,37 @@
 //Récuperation de l'API url = (http://localhost:3000/api/products)
 let body = document.querySelector('body');
 
-function callApi() {
-    let data = null;
-}
 
-function getArticle() {
-    console.log("function get articles")
-    const headers = new Headers();
+async function getArticle() {
 
-    const options = {
+console.log("function get articles")
+
+//     fetch("http://localhost:3000/api/products", options)
+//         .then(function (res) {
+//             if (res.ok) {
+//                 res.json().then(function (data) {
+//                     if (body.classList.contains('homepage')) {
+//                         renderCarts(data)
+//                     }
+//                 })
+//             } else {
+//                 console.log("Error")
+//             }
+//         })
+
+    let response = await fetch("http://localhost:3000/api/products", {
         method: "GET",
-        headers: headers,
-    };
+    })
+    if (response.ok) {
+        let data = await response.json()
+        if (body.classList.contains('homepage')) {
+            renderCarts(data)
+        }
 
-    fetch("http://localhost:3000/api/products", options)
-        .then(function (res) {
-            if (res.ok) {
-                res.json().then(function (data) {
-                    if (body.classList.contains('homepage')) {
-                        renderCarts(data)
-                    }
-                })
-            } else {
-                console.log("Error")
-            }
-        })
+    } else {
+        console.log("Error")
+    }
+
 }
 
 getArticle()

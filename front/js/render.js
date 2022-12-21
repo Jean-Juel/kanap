@@ -1,6 +1,5 @@
 // function rendu des carts produits côté client
 
-console.log('render');
 
 //For render Homepage
 const cartContainer = document.getElementById("items");

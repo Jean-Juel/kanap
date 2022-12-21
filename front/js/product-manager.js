@@ -14,6 +14,12 @@ function viewProduct(item) {
     console.log('price' + item.price)
 
     let id = item._id;
+    let name = item.name;
+    let pric = item.price;
+    let imageUrl = item.imageUrl;
+    let descr = item.description;
+    console.log(pric)
+    console.log(imageUrl)
     let img = document.querySelector('.item__img');
     let price = document.getElementById('price');
     let description = document.getElementById('description');
@@ -45,80 +51,45 @@ function viewProduct(item) {
 
         array.push({
             "id": id,
+            "name": name,
             "color": color,
-            "quantity": quantity
+            "quantity": quantity,
+            "price": pric,
+            "description": descr,
+            "imageUrl": imageUrl
         })
 
-
-        for (let local of array) {
-            // if () {
-
-        // }
-        }
-
-        console.log(array)
+        console.log('id'+ '' + id)
 
         addLocalStorage(id, array)
+        console.log(array)
         window.location.href = `./cart.html`
     })
 }
+let kanap = localStorage;
 
-// console.log('length' + keys.length)
-
-// function getProduct() {
-//     return localStorage.getItem('keys');
-// }
-//
-// console.log(getProduct(localStorage))
+Object.keys(kanap).forEach(function (key){
+    return kanap.getItem(key)
+})
 
 
-console.log(array)
-
-function getAllIdProduct() {
-    for (let i = 0; i < localStorage.length;i++) {
-        let key = localStorage.key(i)
-        idArray.push(key)
-        // let localProduct = localStorage.key(i)
+function getProduct(product) {
+    for (let i = 0; i < kanap.length;i++) {
+        let localProduct = localStorage.key(i)
         // return JSON.parse(localProduct)
     }
 }
+getProduct(kanap)
 
 
+let keys = Object.keys(localStorage)
 
-// let keys = Object.keys(localStorage)
 function showLocal() {
     for (let i = 0; i < localStorage.length;i++) {
         let key = localStorage.key(i)
         idArray.push(key)
-
-
+        return key
         // let localProduct = localStorage.key(i)
         // return JSON.parse(localProduct)
     }
 }
-
-showLocal()
-console.log(idArray[1])
-
-
-
-
-
-// function addProduct(product) {
-//     let kanap = getProduct();
-//     let foundProduct = kanap.find(p => p.id === product.id);
-//     if (foundProduct !== undefined) {
-//         foundProduct.quantity++;
-//     } else {
-//         product.quantity = 1;
-//         kanap.push(product)
-//     }
-//     addLocalStorage(kanap);
-// }
-
-// function removeFromKanap(product) {
-//     let kanap = getProduct();
-//     kanap = kanap.filter(p => p.id !== product.id);
-//     addLocalStorage(kanap);
-// }
-
