@@ -1,37 +1,18 @@
-//Récuperation de l'API url = (http://localhost:3000/api/products)
+'use strict'
+//Recover data of each kanap of API
 let body = document.querySelector('body');
 
-
+//Async function getArticle use renderCars for each data recover
 async function getArticle() {
-
-console.log("function get articles")
-
-//     fetch("http://localhost:3000/api/products", options)
-//         .then(function (res) {
-//             if (res.ok) {
-//                 res.json().then(function (data) {
-//                     if (body.classList.contains('homepage')) {
-//                         renderCarts(data)
-//                     }
-//                 })
-//             } else {
-//                 console.log("Error")
-//             }
-//         })
-
-    let response = await fetch("http://localhost:3000/api/products", {
-        method: "GET",
-    })
+    let response = await fetch("http://localhost:3000/api/products")
     if (response.ok) {
         let data = await response.json()
         if (body.classList.contains('homepage')) {
-            renderCarts(data)
+            renderCards(data)
         }
-
     } else {
         console.log("Error")
     }
-
 }
 
 getArticle()

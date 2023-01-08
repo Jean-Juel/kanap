@@ -6,7 +6,7 @@ function getId() {
     return url.searchParams.get("id");
 }
 
-function gettProduct() {
+function getProduct() {
     if (here.indexOf("id") > -1) {
         console.log("content")
 
@@ -18,18 +18,15 @@ function gettProduct() {
             method: "GET",
             headers: header,
         };
-
-        fetch("http://localhost:3000/api/products", options)
+        //Fetch with paste id in api road
+        fetch(`http://localhost:3000/api/products/${id}`, options)
             .then(function (res) {
                 if (res.ok) {
                     res.json()
                         .then(function (data) {
-                            for (const donne of data) {
-                                let data_id = donne._id;
-                                if (data_id === id) {
-                                    console.log('view product')
-                                    viewProduct(donne);
-                                }
+                            if (data._id === id) {
+                                console.log('view product')
+                                viewProduct(data);
                             }
                         })
                 } else {
@@ -40,6 +37,5 @@ function gettProduct() {
         console.log("no")
     }
 }
-
-gettProduct()
+getProduct()
 

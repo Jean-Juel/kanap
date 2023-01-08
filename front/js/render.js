@@ -1,13 +1,12 @@
 // function rendu des carts produits côté client
 
-
 //For render Homepage
-const cartContainer = document.getElementById("items");
+const cardContainer = document.getElementById("items");
 
-
-function renderCarts(products) {
+//For each data take by fetch create HTML card elements
+function renderCards(products) {
     for (let product of products) {
-        cartContainer.innerHTML +=  `
+        cardContainer.innerHTML += `
                 <a href='./product.html?id=${product._id}' class="item-link" data-id="${product._id}">
                     <article>
                         <img src='${product.imageUrl}'
@@ -19,33 +18,4 @@ function renderCarts(products) {
 
     }
 }
-
-
-
-
-
-// const links = document.getElementsByClassName("item-link");
-
-// function clickFunction(data) {
-//     let id = "";
-//
-//     for (const link of links) {
-//         link.addEventListener("click", function () {
-//             id = this.getAttribute("data-id");
-//
-//             for (const donne of data) {
-//                 let data_id = donne._id;
-//
-//                 if (data_id === id) {
-//                     addLocalStorage(donne)
-//                 }
-//             }
-//         });
-//     }
-// }
-
-
-
-
-
 

@@ -1,25 +1,25 @@
 // Rendu page product
-// import render from render.js;
-let array = [];
-let idArray = [];
-let local = localStorage
-console.log(local)
+let arrayValueLocalStorage = [];
 
-function addLocalStorage(kanap, value) {
-    localStorage.setItem(kanap, JSON.stringify(value))
+function addLocalStorage(value) {
+    localStorage.setItem('kanap', JSON.stringify(value))
 }
 
-console.log('product manager')
-function viewProduct(item) {
-    console.log('price' + item.price)
+function pushArray(value) {
+    arrayValueLocalStorage.push(value)
+}
 
-    let id = item._id;
-    let name = item.name;
-    let pric = item.price;
-    let imageUrl = item.imageUrl;
-    let descr = item.description;
-    console.log(pric)
-    console.log(imageUrl)
+function compare(a, b) {
+    if (a.name < b.name) {
+        return -1
+    }
+    if (a.name > b.name) {
+        return 1
+    }
+    return 0
+}
+
+function viewProduct(item) {
     let img = document.querySelector('.item__img');
     let price = document.getElementById('price');
     let description = document.getElementById('description');
@@ -44,52 +44,100 @@ function viewProduct(item) {
         e.preventDefault()
         e.stopPropagation()
         let color = colors.value;
-        let quantity = input.getAttribute('value');
-        console.log(color)
-        console.log(quantity)
-        console.log(id)
+        let quantity = Number(input.getAttribute('value'));
+        let key = Object.keys(localStorage)
 
-        array.push({
-            "id": id,
-            "name": name,
+        let thisKanapObject = {
+            "name": item.name,
             "color": color,
             "quantity": quantity,
-            "price": pric,
-            "description": descr,
-            "imageUrl": imageUrl
-        })
+            "description": item.description,
+            "imageUrl": item.imageUrl
+        }
 
-        console.log('id'+ '' + id)
+        if (color === '' || quantity === 0) {
+            alert('Veuillez selectione la couleur et la quantite')
+        } else {
+            if (localStorage.getItem('kanap') == null) {
+                arrayValueLocalStorage.push(thisKanapObject)
+                addLocalStorage(arrayValueLocalStorage)
+            } else {
+                const retrievedString = localStorage.getItem('kanap');
+                const parsedObject = JSON.parse(retrievedString);
+                let checkOneIsSame = true;
+                for (let p = 0; p < parsedObject.length; p++) {
+                    if (item.name === parsedObject[p].name && parsedObject[p].color === color) {
+                        console.log('same name and same color')
+                        arrayValueLocalStorage = []
+                        let thisQuantityToNumber = Number(quantity)
+                        let quantityParseToNumber = Number(parsedObject[p].quantity)
+                        let total = quantityParseToNumber + thisQuantityToNumber
+                        let value = Object.values(localStorage)
+                        let parseValue = JSON.parse(value)
 
-        addLocalStorage(id, array)
-        console.log(array)
-        window.location.href = `./cart.html`
+                        pushArray(parseValue[p])
+
+                        let findItemAdd = parseValue.find(el => el.name === item.name && el.color === color)
+                        findItemAdd.quantity = total
+
+                        if (parseValue.length === 1) {
+                            arrayValueLocalStorage = []
+                            pushArray(findItemAdd)
+                            addLocalStorage(arrayValueLocalStorage)
+                        }
+                        if (parseValue.length > 1) {
+                            localStorage.removeItem('kanap')
+                            arrayValueLocalStorage = []
+                            const ArrayFilterSameName = parseValue.filter(el => el.name === item.name && el.color !== color);
+                            const ArrayFilterNotSameColorNotSameName = parseValue.filter(el => el.name !== item.name && el.color !== color);
+
+                            pushArray(findItemAdd)
+
+                            if (typeof ArrayFilterNotSameColorNotSameName !== 'undefined') {
+                                for (let i = 0; i < ArrayFilterNotSameColorNotSameName.length; i++) {
+                                    pushArray(ArrayFilterNotSameColorNotSameName[i])
+                                }
+                            }
+                            if (typeof ArrayFilterSameName !== 'undefined') {
+                                for (let i = 0; i < ArrayFilterSameName.length; i++) {
+                                    pushArray(ArrayFilterSameName[i])
+                                    console.log(ArrayFilterSameName)
+                                }
+                            }
+                            checkOneIsSame = false
+                            arrayValueLocalStorage.sort(compare)
+                            addLocalStorage(arrayValueLocalStorage)
+                        }
+                    }
+                    if (item.name === parsedObject[p].name && parsedObject[p].color !== color && checkOneIsSame === true) {
+                        let value = Object.values(localStorage)
+                        let parseValue = JSON.parse(value)
+                        localStorage.removeItem('kanap')
+                        for (let i = 0; i < parseValue.length; i++) {
+                            pushArray(parseValue[i])
+                            console.log(arrayValueLocalStorage)
+                        }
+                        pushArray(thisKanapObject)
+                        arrayValueLocalStorage.sort(compare)
+
+                        addLocalStorage(arrayValueLocalStorage)
+                        checkOneIsSame = false
+                    }
+                    if (item.name !== parsedObject[p].name && checkOneIsSame === true) {
+                        let value = Object.values(localStorage)
+                        let parseValue = JSON.parse(value)
+                        parseValue.push(thisKanapObject)
+                        checkOneIsSame = false
+
+                        parseValue.sort(compare)
+                        addLocalStorage(parseValue)
+                    }
+                }
+            }
+            alert('Le/les canape selectionner on ete ajoute au panier')
+        }
+
+        arrayValueLocalStorage = []
     })
 }
-let kanap = localStorage;
 
-Object.keys(kanap).forEach(function (key){
-    return kanap.getItem(key)
-})
-
-
-function getProduct(product) {
-    for (let i = 0; i < kanap.length;i++) {
-        let localProduct = localStorage.key(i)
-        // return JSON.parse(localProduct)
-    }
-}
-getProduct(kanap)
-
-
-let keys = Object.keys(localStorage)
-
-function showLocal() {
-    for (let i = 0; i < localStorage.length;i++) {
-        let key = localStorage.key(i)
-        idArray.push(key)
-        return key
-        // let localProduct = localStorage.key(i)
-        // return JSON.parse(localProduct)
-    }
-}

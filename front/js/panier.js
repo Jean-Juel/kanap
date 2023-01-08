@@ -1,20 +1,6 @@
 console.log('basket')
-const inputValue = document.querySelector('.cart__item__content__settings__quantity > input')
-const kanapQuantity = document.querySelector('.cart__item__content__settings__quantity > p')
-
 let valueArray = []
 
-function getItemLocalStorage() {
-    for (let i = 0; i < localStorage.length; i++) {
-        const key = localStorage.key(i)
-        console.log(key)
-        let keys = localStorage.getItem(key)
-        idArray.push(keys)
-        console.log(idArray)
-    }
-}
-
-getItemLocalStorage()
 
 function getIdItemBasket() {
     for (let i = 0; i < valueArray.length; i++) {
@@ -28,27 +14,6 @@ function getIdItemBasket() {
 
 getIdItemBasket()
 
-function getValue(item) {
-    for (let i = 0; i < idArray.length; i++) {
-        let items = localStorage.getItem(item[i])
-        valueArray.push(items)
-    }
-}
-
-
-// function removeItem(item) {
-//     remove.addEventListener('click', function () {
-//         basketContainer.innerHTML = '';
-//         basketTotalPrice.innerHTML = ``
-//         basketTotalQuantity.innerHTML = ``
-//         basketTotalQuantity.innerHTML += `0`
-//         basketTotalPrice.innerHTML += `0`
-//         localStorage.clear()
-//     })
-// }
-//
-
-
 function removeItemLocal() {
     const removes = document.querySelectorAll('.cart__item__content__settings__delete')
 
@@ -57,58 +22,88 @@ function removeItemLocal() {
 
     for (let remove of removes) {
         remove.addEventListener('click', function () {
-            let id = this.getAttribute('data-id')
+            let name = this.closest("article").getAttribute('data-name')
             let quantity = this.closest("article").getAttribute('data-value');
             let price = this.closest("article").getAttribute('data-price');
+            let color = this.closest("article").getAttribute('data-color');
+            let value = Object.values(localStorage)
+            let parseValue = JSON.parse(value)
+
             basketTotalQuantite -= quantity
             basketTotalPrix -= (quantity * price)
-            console.log(basketTotalPrix)
-            for (let key of ki) {
-                if (key === id) {
-                    basketTotalQuantity.innerHTML = ''
-                    basketTotalPrice.innerHTML = ''
-                    basketTotalQuantity.innerHTML = `${basketTotalQuantite}`
-                    basketTotalPrice.innerHTML = `${basketTotalPrix}`
-                    this.closest("article").remove();
-                    localStorage.removeItem(id)
-                }
+            let spliceParse = [];
+            let spliceParsefdsf = [];
+
+            spliceParsefdsf.push(parseValue)
+            console.log(spliceParsefdsf)
+
+
+            for (let i = 0; i < parseValue.length; i++) {
+                spliceParse.push(parseValue[i])
+            }
+
+            console.log(parseValue)
+
+            let index = spliceParse.findIndex(i => i.name === name && i.color === color)
+            console.log(spliceParse)
+            spliceParse.splice(index, 1)
+            console.log(spliceParse)
+
+            basketTotalQuantity.innerHTML = ''
+            basketTotalPrice.innerHTML = ''
+            basketTotalQuantity.innerHTML = `${basketTotalQuantite}`
+            basketTotalPrice.innerHTML = `${basketTotalPrix}`
+            this.closest("article").remove();
+            localStorage.removeItem('kanap')
+            addLocalStorage(spliceParse)
+
+            console.log('spliceParse')
+            console.log(spliceParse)
+
+        })
+    }
+}
+
+function inputValueChange() {
+    const inputs = document.querySelectorAll('.itemQuantity')
+    const kanapQuantity = document.querySelectorAll('.cart__item__content__settings__quantity > p')
+    for (let input of inputs) {
+        input.addEventListener('input', function () {
+            let quantity = this.value;
+            let p = this.previousElementSibling
+            p.innerHTML = `Qté : ${quantity}`
+            this.setAttribute('value', quantity)
+            this.closest("article").setAttribute('data-value', quantity);
+            let attibuteValue = Number(input.getAttribute('value'))
+            console.log(attibuteValue)
+        })
+
+
+        input.addEventListener('change', function () {
+            const articles = document.getElementsByTagName('article')
+            let sumQuantity = 0;
+            let sumPrice = 0;
+
+            for (let article of articles) {
+                let values = Number(article.getAttribute('data-value'))
+                let quantity = Number(article.getAttribute('data-price'))
+                sumQuantity += values
+                sumPrice += (values * quantity)
+
+                basketTotalQuantity.innerHTML = ``
+                basketTotalQuantity.innerHTML = `${sumQuantity}`
+
+                basketTotalPrice.innerHTML = ``
+                basketTotalPrice.innerHTML = `${sumPrice}`
+
             }
         })
     }
 }
 
-// function removeItemView() {
-//     for (let article of articles) {
-//         article.addEventListener('click', function () {
-//             let id = this.getAttribute('data-id')
-//             console.log(id)
-//             for (let key of ki) {
-//                 if (key !== id) {
-//
-//                 }
-//             }
-//         })
-//     }
-// }
-
-
-// if (key === this) {
-//     local.removeItem(this)
-// }
-
-// function () {
-//     console.log('remove')
-//     for (let key of ki) {
-//         if (key === this) {
-//             local.removeItem(this)
-//         }
-//     }
-// }
-
-getValue(localStorage)
+// getValue(localStorage)
 
 function viewBasket() {
-    console.log("function get basket")
     const headers = new Headers();
 
     const options = {
@@ -118,38 +113,27 @@ function viewBasket() {
 
     fetch("http://localhost:3000/api/products", options)
         .then(function (res) {
-            if (res.ok) {
-                res.json().then(function (data) {
-
-                    for (const donne of data) {
-                        let data_id = donne._id;
-                        if (data_id === ki) {
-                            renderBasket(donne);
+                if (res.ok) {
+                    res.json().then(function (data) {
+                            for (let value of parseValue) {
+                                let value_name = value.name;
+                                if (value_name === data.name) {
+                                    console.log('hello')
+                                    for (let donne of data) {
+                                        renderBasket(donne);
+                                    }
+                                }
+                            }
+                            removeItemLocal()
+                            inputValueChange()
                         }
-                    }
-                    removeItemLocal()
-
-                    // let thisId = getAtribute()
-                    // console.log(thisId)
-
-
-                })
-            } else {
-                console.log("Error")
+                    )
+                } else {
+                    console.log("Error")
+                }
             }
-        })
+        )
 }
 
 viewBasket()
 
-
-// inputValue.addEventListener('input', function () {
-//     let quantityInput = inputValue.value;
-//     inputValue.setAttribute('value', quantityInput);
-//     kanapQuantity.innerHTML = ``
-//     kanapQuantity.innerHTML += `Qté : ${quantityInput}`
-//     basketTotalQuantity.innerHTML = ``
-//     basketTotalQuantity.innerHTML += `${quantityInput}`
-//     basketTotalPrice.innerHTML = ``
-//     basketTotalPrice.innerHTML += `${quantityInput * donne.price}`
-// })
