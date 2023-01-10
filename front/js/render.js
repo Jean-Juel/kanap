@@ -1,6 +1,4 @@
-// function rendu des carts produits côté client
-
-//For render Homepage
+// function render card produits Homepage
 const cardContainer = document.getElementById("items");
 
 //For each data take by fetch create HTML card elements

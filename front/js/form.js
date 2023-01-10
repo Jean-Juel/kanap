@@ -29,7 +29,7 @@ function sendForm() {
         }
 
         function formLastName() {
-            // REGEX for the last name and validate the conditions of the imputs
+            // REGEX for the last name and validate the conditions of the inputs
             const validLastName = contact.lastName;
             let regExpLastName =
                 /^[^0-9_!¡?÷?¿/\\+=@#$%ˆ&*(){}|~<>;:[\]]{3,20}$/.test(validLastName);
@@ -44,7 +44,7 @@ function sendForm() {
         }
 
         function formAddress() {
-            // REGEX for the address and validate the conditions of the imputs
+            // REGEX for the address and validate the conditions of the inputs
             const validAddress = contact.address;
             let regExpAddress =
                 /^[0-9]{1,3}(?:(?:[,. ]){1}[-a-zA-Zàâäéèêëïîôöùûüç]+)+/.test(
@@ -60,7 +60,7 @@ function sendForm() {
         }
 
         function formCity() {
-            // REGEX for the city and validate the conditions of the imputs
+            // REGEX for the city and validate the conditions of the inputs
             const validCity = contact.city;
             let regExpCity =
                 /^[a-zA-Zàâäéèêëïîôöùûüç]+(?:[- ][a-zA-Zàâäéèêëïîôöùûüç]+)*$/.test(
@@ -75,7 +75,7 @@ function sendForm() {
             }
         }
         function formEmail() {
-            // REGEX for email and validate the conditions of the imputs
+            // REGEX for email and validate the conditions of the inputs
             const validEmail = contact.email;
             let regExpEmail =
                 /^[a-zA-Z0-9.-_]+[@]{1}[a-zA-Z0-9.-_]+[.]{1}[a-z]{2,10}$/.test(
