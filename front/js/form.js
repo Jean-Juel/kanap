@@ -1,3 +1,4 @@
+
 function sendForm() {
     const submitForm = document.getElementById('order')
     submitForm.addEventListener("click", (event) => {
@@ -91,7 +92,7 @@ function sendForm() {
         }
 
         function formValidation() {
-            // if the form is correctly filled, it will create a item "contact" in the localStorage
+            // if the form is correctly filled, it will create an item "contact" in the localStorage
             if (
                 formFirstName() === true &&
                 formLastName() === true &&
@@ -113,25 +114,27 @@ function sendForm() {
             products.push(products[i].id);
         }
 
-        console.log(products);
-
         if (formValidation() === true) {
-            // Creation of an object order with the informations of "contact" and "products"
+            // Creation an object order with the informations of "contact" and "products"
             const order = {
                 contact,
                 products,
             };
 
-            fetch("http://localhost:3000/api/products/order", {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json",
-                },
-                body: JSON.stringify(order),
-            })
+            async function postForm(object) {
+                return await fetch("http://localhost:3000/api/products/order", {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json",
+                    },
+                    body: JSON.stringify(object),
+                })
+            }
+
+            //Post with function postForm
+             postForm(order)
                 .then((response) => response.json())
                 .then((data) => {
-                    console.log(data);
                     localStorage.clear();
                     localStorage.setItem("orderId", data.orderId);
                     document.location.href = "confirmation.html";
@@ -143,4 +146,3 @@ function sendForm() {
     });
 }
 sendForm()
-

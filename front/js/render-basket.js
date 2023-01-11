@@ -3,9 +3,6 @@ const basketContainer = document.getElementById("cart__items");
 const basketTotalQuantity = document.getElementById("totalQuantity");
 const basketTotalPrice = document.getElementById("totalPrice");
 
-let value = Object.values(localStorage)
-let valuelocalStorage = JSON.parse(value)
-
 function renderBasket(data, value) {
     let prixKanap = data.price;
     let quantityKanap = value.quantity;
