@@ -1,41 +1,50 @@
+import {addLocalStorage} from "../product/product-manager.js";
+import {renderCart} from "./render-cart.js";
+
 function removeKanap() {
     const removes = document.querySelectorAll('.cart__item__content__settings__delete')
-
     //Loop on each button delete in articles
     for (let remove of removes) {
         remove.addEventListener('click', function () {
             let color = this.closest("article").getAttribute('data-color');
             let id = this.closest("article").getAttribute('data-id');
-            let spliceValue = [];
+            let newValue = [];
 
-            let value = Object.values(localStorage)
-            let valuelocalStorage = JSON.parse(value)
-            console.log(valuelocalStorage)
+            //Get localStorage
+            let valueLocalStorage = Object.values(localStorage)
+            let productLocalStorage = JSON.parse(valueLocalStorage)
 
-            //Push value from localStorage in array 'spliceValue'
-            for (let i = 0; i < valuelocalStorage.length; i++) {
-                spliceValue.push(valuelocalStorage[i])
+            //Push value from localStorage in array 'newValue'
+            for (let i = 0; i < productLocalStorage.length; i++) {
+                newValue.push(productLocalStorage[i])
             }
 
-            //Find index in spliceValue
-            let index = spliceValue.findIndex(i => i.id === id && i.color === color)
-            console.log(index)
+            //Find index in newValue
+            let index = newValue.findIndex(i => i.id === id && i.color === color)
 
-            //Use splice for delete spliceValue
-            spliceValue.splice(index, 1)
-            console.log(spliceValue)
+            //Use splice for delete the same article
+            newValue.splice(index, 1)
 
-            this.closest("article").remove();
+            //Remove all localstorage
             localStorage.removeItem('kanap')
-            addLocalStorage(spliceValue)
+
+            //Remove article select in cart
+            this.closest("article").remove();
+
+            //Add new array in localStorage
+            addLocalStorage(newValue)
+
             //Call function for recalculate total price and total quantity after remove kanap
-            // calculTotalPrice()
+            calculTotalPrice()
         })
     }
 }
 
 function calculTotalPrice() {
     let articles = document.querySelectorAll('.cart__item_article')
+    let cartTotalPrice = document.getElementById("totalPrice");
+    let cartTotalQuantity = document.getElementById("totalQuantity");
+
     let sumQuantity = 0;
     let sumPrice = 0;
     //Loop in all articles
@@ -50,13 +59,13 @@ function calculTotalPrice() {
         sumQuantity += quantity
         sumPrice += (quantity * priceReplace)
 
-        //Emptied total card
-        basketTotalQuantity.innerHTML = ``
-        basketTotalPrice.innerHTML = ``
+        //Emptied total price and quantity card
+        cartTotalQuantity.innerHTML = ``
+        cartTotalPrice.innerHTML = ``
 
         //Add total quantity and total price
-        basketTotalQuantity.innerHTML = `${sumQuantity}`
-        basketTotalPrice.innerHTML = `${sumPrice}`
+        cartTotalQuantity.innerHTML = `${sumQuantity}`
+        cartTotalPrice.innerHTML = `${sumPrice}`
     }
 }
 
@@ -67,15 +76,20 @@ function inputValueChange() {
     for (let input of inputs) {
         //Change Qté when change input
         input.addEventListener('input', function () {
-            //Change value attribute on change input quantity
-            let inputValue = this.value
-            input.setAttribute('value', inputValue)
 
+            //Change value attribute on change input quantity
+            input.setAttribute('value', this.value)
+
+            //get atttribute
             let quantity = this.getAttribute('value');
-            //Change quantity with the same input quantity
+
+            //Select text price
             let p = this.previousElementSibling
+
+            //Change quantity with the same input quantity
             p.innerHTML = `Qté : ${quantity}`
-            this.setAttribute('value', quantity)
+
+            //Add quantity to data-value attribute
             this.closest("article").setAttribute('data-value', quantity);
 
             //Call function for recalculate total price and total quantity after change value
@@ -98,20 +112,20 @@ async function viewCart() {
                 await rep.json()
                     .then(await function (data) {
                             if (data._id === value.id) {
-                                renderBasket(data, value)
+                                renderCart(data, value)
                             }
-                            //Function gonna wait addEventListener
-                            removeKanap()
-                            inputValueChange()
-                            //Function calcul total price when the item localStorage appear
-                            calculTotalPrice()
                         }
                     )
             } else {
                 console.log("Error on fetch API")
             }
         }
+        //Function gonna wait addEventListener
+        removeKanap()
+        inputValueChange()
+        //Function calcul total price when the item localStorage appear
+        calculTotalPrice()
     }
 }
-
 viewCart()
+export {viewCart, calculTotalPrice, removeKanap, inputValueChange}

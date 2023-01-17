@@ -1,13 +1,11 @@
 //For render Basket
-const basketContainer = document.getElementById("cart__items");
-const basketTotalQuantity = document.getElementById("totalQuantity");
-const basketTotalPrice = document.getElementById("totalPrice");
+const basketCart = document.getElementById("cart__items");
 
-function renderBasket(data, value) {
+function renderCart(data, value) {
     let prixKanap = data.price;
     let quantityKanap = value.quantity;
     if (!localStorage.getItem("orderId")) {
-        basketContainer.innerHTML += `
+        basketCart.innerHTML += `
                   <article class="cart__item cart__item_article" data-id="${data._id}" data-color="${value.color}" data-value="${quantityKanap}">
                         <div class="cart__item__img">
                             <img src="${data.imageUrl}" alt="Photographie d'un canapé">
@@ -31,7 +29,9 @@ function renderBasket(data, value) {
                 </article>`;
 
     } else {
-        console.log('no render Basket')
+        console.log('no render Cart')
     }
-
 }
+
+// renderCart()
+export {renderCart}

@@ -12,7 +12,6 @@ function sendForm() {
             city: document.getElementById("city").value,
             email: document.getElementById("email").value,
         };
-        console.log(contact);
 
         function formFirstName() {
             // REGEX for the first name and validate the conditions of the imputs
@@ -146,3 +145,5 @@ function sendForm() {
     });
 }
 sendForm()
+
+export {sendForm}
