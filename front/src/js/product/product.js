@@ -7,7 +7,7 @@ function getId() {
     return url.searchParams.get("id");
 }
 
-async function gettProduct() {
+async function getproduct() {
     //if id is on URL
     if (here.indexOf("id") > -1) {
         let id = getId();
@@ -21,6 +21,6 @@ async function gettProduct() {
         }
     }
 }
-    gettProduct()
+    getproduct()
 
-export {here, getId, gettProduct}
+export {here, getId, getproduct}
