@@ -1,8 +1,4 @@
 'use strict'
-// Rendu page product
-
-//Empty array for push in localStorage
-let toStorage = [];
 
 function addLocalStorage(value) {
     localStorage.setItem('kanap', JSON.stringify(value))
@@ -21,6 +17,9 @@ function compare(a, b) {
 
 //ViewProduct with item parameter: data of API
 function viewProduct(item) {
+    //Empty array for push in localStorage
+    let toStorage = [];
+
     //Selected all in DOM
     let img = document.querySelector('.item__img');
     let price = document.getElementById('price');
@@ -80,13 +79,13 @@ function viewProduct(item) {
             let checkOneIsSame = true;
 
             //Loop on value localStorage parsed
-            for (let p = 0; p < parsedObject.length; p++) {
-                if (item._id === parsedObject[p].id && parsedObject[p].color === color) {
+            for (let product of parsedObject) {
+                if (item._id === product.id && product.color === color) {
                     //Reset array
                     toStorage = []
                     //Take quantity choose and this item and convert to number
                     let thisQuantityToNumber = Number(quantity)
-                    let quantityParseToNumber = Number(parsedObject[p].quantity)
+                    let quantityParseToNumber = Number(product.quantity)
                     let total = quantityParseToNumber + thisQuantityToNumber
 
                     //Get value localStorage
@@ -94,7 +93,7 @@ function viewProduct(item) {
                     let valuelocalStorage = JSON.parse(localValue)
 
                     //Push localStorage in array
-                    toStorage.push(valuelocalStorage[p])
+                    toStorage.push(valuelocalStorage[product])
 
                     //Find item with same id and same color and add quantity choose
                     let findItemAdd = valuelocalStorage.find(el => el.id === item._id && el.color === color)
@@ -113,12 +112,10 @@ function viewProduct(item) {
                         //Clean valueLocalStorage
                         toStorage = []
                         //Push item add value before valueLocalStorage
-                        console.log(findItemAdd)
                         toStorage.push(findItemAdd)
                         // Use filter for take item who have the same name not same color
                         const sameName = valuelocalStorage.filter(el => el.id === item._id && el.color !== color);
-                        console.log('sameName')
-                        console.log(sameName)
+
                         //Check if sameName is not empty and if is not push item
                         if (typeof sameName !== 'undefined') {
                             for (let valueSame of sameName) {
@@ -128,8 +125,6 @@ function viewProduct(item) {
 
                         // Use filter for take item who doesn't have the same name and same color
                         const notSameColorNotSameName = valuelocalStorage.filter(el => el.id !== item._id && el.color !== color);
-                        console.log('notSameColorNotSameName')
-                        console.log(notSameColorNotSameName)
 
                         //Check if notSameColorNotSameName is not empty and if is not push item
                         if (typeof notSameColorNotSameName !== 'undefined') {
@@ -143,7 +138,7 @@ function viewProduct(item) {
                         addLocalStorage(toStorage)
                     }
                 }
-                if (item._id === parsedObject[p].id && parsedObject[p].color !== color && checkOneIsSame === true) {
+                if (item._id === product.id && product.color !== color && checkOneIsSame === true) {
                     let value = Object.values(localStorage)
                     let valuelocalStorage = JSON.parse(value)
                     localStorage.removeItem('kanap')
@@ -163,7 +158,7 @@ function viewProduct(item) {
                     checkOneIsSame = false
                 }
                 //If is not same name add localStorage and this couch
-                if (item._id !== parsedObject[p].id && checkOneIsSame === true) {
+                if (item._id !== product.id && checkOneIsSame === true) {
                     let value = Object.values(localStorage)
                     let valuelocalStorage = JSON.parse(value)
                     valuelocalStorage.push(thisKanapObject)

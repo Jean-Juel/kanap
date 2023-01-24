@@ -1,6 +1,10 @@
 import {addLocalStorage} from "../product/product-manager.js";
 import {renderCart} from "./render-cart.js";
 
+/**
+ * Remove an item from the cart
+ */
+
 function removeKanap() {
     const removes = document.querySelectorAll('.cart__item__content__settings__delete')
     //Loop on each button delete in articles
@@ -15,8 +19,8 @@ function removeKanap() {
             let productLocalStorage = JSON.parse(valueLocalStorage)
 
             //Push value from localStorage in array 'newValue'
-            for (let i = 0; i < productLocalStorage.length; i++) {
-                newValue.push(productLocalStorage[i])
+            for (let product of productLocalStorage) {
+                newValue.push(product)
             }
 
             //Find index in newValue
@@ -39,6 +43,10 @@ function removeKanap() {
         })
     }
 }
+
+/**
+ * Take the product of the price and multiply it by the quantity
+ */
 
 function calculTotalPrice() {
     let articles = document.querySelectorAll('.cart__item_article')
@@ -69,6 +77,11 @@ function calculTotalPrice() {
     }
 }
 
+/**
+ * calculation and display at value change on product page cart
+ *
+ */
+
 function inputValueChange() {
     const inputs = document.querySelectorAll('.itemQuantity')
     // const quantity = document.querySelectorAll('.quantity')
@@ -80,7 +93,7 @@ function inputValueChange() {
             //Change value attribute on change input quantity
             input.setAttribute('value', this.value)
 
-            //get atttribute
+            //get attribute
             let quantity = this.getAttribute('value');
 
             //Select text price
@@ -98,7 +111,11 @@ function inputValueChange() {
     }
 }
 
-//Fetch on each item in localstorage for render
+/**
+ *
+ * Fetch on each item in localstorage for render
+ * @returns {Promise<void>}
+ */
 async function viewCart() {
     let value = Object.values(localStorage)
     //if localStorage is not empty
