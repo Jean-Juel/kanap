@@ -1,9 +1,9 @@
 // function render card produits Homepage
-const cardContainer = document.getElementById("items");
 
 //For each data take by fetch create HTML card elements
 //Use createElement and append child
 function addElement(product) {
+const cardContainer = document.getElementById("items");
     let link = document.createElement("a")
     link.setAttribute("href", `./product.html?id=${product._id}`)
     link.setAttribute("data-id", product._id)
