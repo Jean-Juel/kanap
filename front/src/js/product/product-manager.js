@@ -159,8 +159,8 @@ function viewProduct(item) {
                 }
                 //If is not same name add localStorage and this couch
                 if (item._id !== product.id && checkOneIsSame === true) {
-                    let value = Object.values(localStorage)
-                    let valuelocalStorage = JSON.parse(value)
+                    let valueObjectStorage = Object.values(localStorage)
+                    let valuelocalStorage = JSON.parse(valueObjectStorage)
                     valuelocalStorage.push(thisKanapObject)
                     checkOneIsSame = false
 
