@@ -7,67 +7,6 @@ async function postForm(object) {
         body: JSON.stringify(object),
     })
 }
-function sendForm() {
-    const submitForm = document.getElementById('order')
-    submitForm.addEventListener("click", (event) => {
-        event.preventDefault();
-
-        const contact = {
-            // create an object contact with the values given by the user with the form
-            firstName: document.getElementById("firstName").value,
-            lastName: document.getElementById("lastName").value,
-            address: document.getElementById("address").value,
-            city: document.getElementById("city").value,
-            email: document.getElementById("email").value,
-        };
-
-        function formValidation() {
-            // if the form is correctly filled, it will create an item "contact" in the localStorage
-            if (
-                formFirstName(contact) === true &&
-                formLastName(contact) === true &&
-                formAddress(contact) === true &&
-                formCity(contact) === true &&
-                formEmail(contact) === true
-            ) {
-                localStorage.setItem("contact", JSON.stringify(contact));
-                return true;
-            } else {
-                event.preventDefault();
-                alert("Merci de remplir correctement le formulaire");
-                return false
-            }
-        }
-        
-        let products = [];
-        const getIdStorage = JSON.parse(localStorage.getItem('kanap'))
-
-        for (let product of getIdStorage) {
-            products.push(product.id);
-        }
-
-        if (formValidation() === true) {
-            // Creation an object order with the informations of "contact" and "products"
-            const order = {
-                contact,
-                products,
-            };
-
-            //Post with function postForm
-             postForm(order)
-                .then((response) => response.json())
-                .then((data) => {
-                    localStorage.clear();
-                    localStorage.setItem("orderId", data.orderId);
-                    document.location.href = "confirmation.html";
-                })
-                .catch((error) => console.log(error));
-        } else {
-            event.preventDefault();
-        }
-    });
-}
-sendForm()
 
 function formFirstName(contact) {
     // REGEX for the first name and validate the conditions of the imputs
@@ -145,3 +84,65 @@ function formEmail(contact) {
         emailErrorMsg.innerHTML = "Votre email est invalide.";
     }
 }
+
+function sendForm() {
+    const submitForm = document.getElementById('order')
+    submitForm.addEventListener("click", (event) => {
+        event.preventDefault();
+
+        const contact = {
+            // create an object contact with the values given by the user with the form
+            firstName: document.getElementById("firstName").value,
+            lastName: document.getElementById("lastName").value,
+            address: document.getElementById("address").value,
+            city: document.getElementById("city").value,
+            email: document.getElementById("email").value,
+        };
+
+        function formValidation() {
+            // if the form is correctly filled, it will create an item "contact" in the localStorage
+            if (
+                formFirstName(contact) === true &&
+                formLastName(contact) === true &&
+                formAddress(contact) === true &&
+                formCity(contact) === true &&
+                formEmail(contact) === true
+            ) {
+                localStorage.setItem("contact", JSON.stringify(contact));
+                return true;
+            } else {
+                event.preventDefault();
+                alert("Merci de remplir correctement le formulaire");
+                return false
+            }
+        }
+
+        let products = [];
+        const getIdStorage = JSON.parse(localStorage.getItem('kanap'))
+
+        for (let product of getIdStorage) {
+            products.push(product.id);
+        }
+
+        if (formValidation() === true) {
+            // Creation an object order with the informations of "contact" and "products"
+            const order = {
+                contact,
+                products,
+            };
+
+            //Post with function postForm
+            postForm(order)
+                .then((response) => response.json())
+                .then((data) => {
+                    localStorage.clear();
+                    localStorage.setItem("orderId", data.orderId);
+                    document.location.href = "confirmation.html";
+                })
+                .catch((error) => console.log(error));
+        } else {
+            event.preventDefault();
+        }
+    });
+}
+sendForm()

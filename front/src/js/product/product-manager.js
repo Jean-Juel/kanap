@@ -28,7 +28,7 @@ function viewProduct(item) {
     let input = document.getElementById('quantity');
     let button = document.getElementById('addToCart');
 
-    //Get price, description
+    //Get price, description, image
     price.innerHTML += item.price;
     description.innerHTML += item.description;
     img.innerHTML += `<img src='${item.imageUrl}'
@@ -114,21 +114,21 @@ function viewProduct(item) {
                         //Push item add value before valueLocalStorage
                         toStorage.push(findItemAdd)
                         // Use filter for take item who have the same name not same color
-                        const sameName = valuelocalStorage.filter(el => el.id === item._id && el.color !== color);
+                        const sameId = valuelocalStorage.filter(el => el.id === item._id && el.color !== color);
 
                         //Check if sameName is not empty and if is not push item
-                        if (typeof sameName !== 'undefined') {
-                            for (let valueSame of sameName) {
+                        if (typeof sameId !== 'undefined') {
+                            for (let valueSame of sameId) {
                                 toStorage.push(valueSame)
                             }
                         }
 
                         // Use filter for take item who doesn't have the same name and same color
-                        const notSameColorNotSameName = valuelocalStorage.filter(el => el.id !== item._id && el.color !== color);
+                        const notSameColorNotSameId = valuelocalStorage.filter(el => el.id !== item._id && el.color !== color);
 
                         //Check if notSameColorNotSameName is not empty and if is not push item
-                        if (typeof notSameColorNotSameName !== 'undefined') {
-                            for (let valueNotSame of notSameColorNotSameName) {
+                        if (typeof notSameColorNotSameId !== 'undefined') {
+                            for (let valueNotSame of notSameColorNotSameId) {
                                 toStorage.push(valueNotSame)
                             }
                         }
